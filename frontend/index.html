@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html class="light" lang="de-DE">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="/app.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-visual" />
+    <title>Schulportal Hessen</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="Schulportal Hessen">
+    <meta name="theme-color" content="#18d6ee">
+    <link rel="preconnect" href="https://derownerhd.github.io">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: SPFontSemiBold;
+            src: url("/font/semibold");
+        }
+
+        @font-face {
+            font-family: SPFontBold;
+            src: url("/font/bold");
+        }
+
+        html.light {
+            --main-color: #fff;
+            --text-color: #000;
+            --button-default: #0060df;
+            --button-pressed: #033475;
+            --button-disabled: #848b95;
+        }
+
+        html.dark {
+            --main-color: #000;
+            --text-color: #fff;
+        }
+
+        html,
+        body {
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+            touch-action: none;
+            -ms-touch-action: none;
+        }
+
+        p, i::before, .title {
+            color: var(--text-color);
+        }
+
+        body {
+            background-color: var(--main-color);
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        :root {
+            font-family: SPFontSemiBold;
+            --gradient: linear-gradient(to right, #18d6ee, #3a7bd5);
+        }
+
+        :root.dev {
+            --gradient: linear-gradient(to right, #3ab4ae, #19d168);
+        }
+
+        .app-tile-container {
+            padding-top: 5.25rem;
+            padding-bottom: 3rem;
+            max-height: 100vh;
+        }
+
+        .app-tile,
+        .app-tile-dropdown .top-wrapper {
+            height: 6rem;
+            width: 85vw;
+            border-radius: 1rem;
+            background-color: var(--main-color);
+            margin: 0.3rem 0;
+            cursor: pointer;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .app-tile[type="moodle"],
+        .app-tile-dropdown[type="moodle"] .top-wrapper {
+            background-image: linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%);
+        }
+
+        .app-tile[type="splan"],
+        .app-tile-dropdown[type="splan"] .top-wrapper {
+            background-image: linear-gradient(315deg, #008eff 0%, #05e7ec 74%);
+        }
+
+        .app-tile[type="vplan"],
+        .app-tile-dropdown[type="vplan"] .top-wrapper {
+            background-image: linear-gradient(315deg, #168647 0%, #24df62 70%);
+        }
+
+        .app-tile[type="cal"],
+        .app-tile-dropdown[type="cal"] .top-wrapper {
+            background-image: linear-gradient(315deg, #86163e 0%, #df243a 70%);
+        }
+
+        .app-tile[type="messages"],
+        .app-tile-dropdown[type="messages"] .top-wrapper {
+            background-image: linear-gradient(315deg, #fdbb2d 0%, #fda52d 70%);
+        }
+
+        .app-tile[type="settings"],
+        .app-tile-dropdown[type="settings"] .top-wrapper {
+            background-image: linear-gradient(315deg, rgba(128,128,128,1) 0%, rgba(168,168,168,1) 70%);
+        }
+
+        .app-tile-icon {
+            width: 3rem;
+            margin-left: 1.5rem;
+            text-align: center;
+        }
+
+        .app-tile-icon::before {
+            color: white;
+            font-size: 3rem;
+        }
+
+        .app-tile-title {
+            font-size: 1.5rem;
+            margin-left: 1rem;
+            color: white;
+            text-align: center;
+            width: calc(85vw - 7rem);
+        }
+
+        .app-tile-notification {
+            background-color: red;
+            height: 1.8rem;
+            width: 1.8rem;
+            border-radius: 0.9rem;
+            font-size: 1.5rem;
+            color: white;
+            position: relative;
+            text-align: center;
+            display: grid;
+            place-content: center;
+            top: -1rem;
+            left: -7rem;
+        }
+
+        .shadow,
+        .app-tile,
+        .app-tile-notification,
+        .progress-box,
+        .app-tile-dropdown .main-wrapper,
+        .app-tile-dropdown .top-wrapper,
+        .notification-reminder,
+        .setting,
+        .setting-item .action,
+        .calendar-info-box,
+        .calendar-search,
+        .force-reload-box,
+        .status-info {
+            --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+        }
+
+        .text-shadow,
+        .app-tile-icon::before,
+        .app-tile-title {
+            text-shadow: 0 8px 15px rgba(0, 0, 0, 0.2)
+        }
+
+        .wrapper,
+        .menu-wrapper,
+        .dialog-wrapper,
+        .progress-box-wrapper {
+            overflow: hidden;
+        }
+
+        .no-rotate {
+            background-color: black;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: absolute;
+            z-index: 1000;
+            top: 0;
+            display: none;
+        }
+
+        .no-rotate-text-wrapper {
+            height: 100%;
+            width: 100%;
+            place-items: center;
+            display: grid;
+        }
+
+        .no-rotate h1 {
+            color: white;
+            width: 100vw;
+            place-self: center;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .dialog-box-container {
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            backdrop-filter: blur(3px);
+            display: grid;
+        }
+
+        .dialog-box {
+            width: 75vw;
+            height: 9rem;
+            border-radius: 1rem;
+            place-self: center;
+            background-color: var(--main-color);
+        }
+
+        .dialog-box .title,
+        .bold {
+            font-family: SPFontBold;
+            margin: 0.5rem 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            width: 100%;
+        }
+
+        .dialog-box .text {
+            margin: 0 1rem;
+            line-height: 1rem;
+        }
+
+        .close-button,
+        .top-button {
+            background-color: #f2f2f2;
+            height: 2rem;
+            width: 2rem;
+            border-radius: 1rem;
+            display: grid;
+            place-content: center;
+            position: absolute;
+        }
+
+        .top-button.extended {
+            width: 4rem;
+            display: flex;
+            place-items: center;
+        }
+
+        .top-button.extended.icon .text {
+            margin-left: 0.5rem;
+        }
+
+        .top-button.extended[action="relative"] {
+            width: auto;
+            padding: 0.5rem;
+        }
+
+        .top-button.extended[action="last-refreshed"] {
+            width: fit-content;
+            margin-top: 0.5rem;
+            padding: 0 1rem;
+        }
+
+        .dialog-box .title .close-button {
+            left: 75vw;
+            place-self: end;
+        }
+
+        .menu .top-button,
+        .menu .close-button {
+            position: relative;
+            margin-left: 7px;
+        }
+
+        .close-button i::before,
+        .top-button i::before,
+        .top-button.extended .text {
+            color: #4f5762;
+            align-self: center;
+        }
+
+        .dialog-box-container.out .dialog-box {
+            animation-name: dialogBoxOut;
+            animation-duration: 500ms;
+            animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+
+        .menu .footer-wrapper {
+            position: absolute;
+            display: grid;
+            justify-content: center;
+            width: 100%;
+            padding: 0.5rem 0;
+            background-color: var(--main-color);
+        }
+
+        @keyframes dialogBoxOut {
+            0% {
+                transform: scale(100%);
+            }
+
+            10% {
+                transform: scale(105%);
+            }
+
+            100% {
+                transform: scale(0);
+            }
+        }
+
+        .dialog-wrapper {
+            display: none;
+        }
+
+        .actions {
+            height: 1.5rem;
+            width: calc(100% - 2rem);
+            margin: 0.75rem 1rem;
+            display: flex;
+            flex-direction: row-reverse;
+        }
+
+        .action.danger {
+            background-color: red;
+            padding: 2px 5px;
+            width: auto;
+            height: 2rem;
+            max-width: 5rem;
+            text-align: center;
+            border-radius: 0.5rem;
+            color: var(--main-color);
+            font-size: 1.2rem;
+        }
+
+        .header {
+            border-bottom: solid white 0.5rem;
+            background: var(--gradient);
+            position: fixed;
+            height: 5rem;
+            width: 100vw;
+            top: 0;
+            display: grid;
+            place-items: center;
+            z-index: 1;
+        }
+
+        .header-name {
+            height: 50%;
+            margin-top: 0.25rem;
+        }
+
+        .background .image {
+            position: fixed;
+            background-size: cover;
+            height: 100vh;
+            width: 100vw;
+            z-index: -999;
+            top: 0;
+        }
+
+        .background .overlay {
+            position: fixed;
+            background-color: rgba(255, 255, 255, 0.35);
+            height: 100vh;
+            width: 100vw;
+            top: 0;
+            z-index: -998;
+        }
+
+        .app-tile-news-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .app-tile-news {
+            background-color: rgba(255, 255, 255, 0.35);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            padding: 0 0.25rem;
+            margin: 0 0.2rem;
+            white-space: nowrap;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .app-tile-news i {
+            margin-left: 0.2rem;
+        }
+
+        .app-tile-news i::before {
+            color: white;
+        }
+
+        .d-none {
+            display: none !important;
+        }
+
+        .progress-box-wrapper {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: grid;
+            place-items: center;
+        }
+
+        .progress-box {
+            background-color: var(--main-color);
+            width: 85vw;
+            height: 30vw;
+            border-radius: 2rem;
+            display: flex;
+            align-items: center;
+            margin-top: -20vh;
+        }
+
+        .progress-box img {
+            height: 15vw;
+            margin: 0 4vw;
+        }
+
+        .progress-box p {
+            margin-bottom: -2vw;
+        }
+
+        .progress-box small {
+            margin-top: 0.5rem;
+            line-height: 0.8rem;
+            display: grid;
+            text-align: left;
+        }
+
+        .background .image.generic {
+            background-image: url("https://start.schulportal.hessen.de/img/schulbg/default-lg.jpg") !important;
+        }
+
+        .menu-wrapper {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            overflow: hidden;
+        }
+
+        .menu {
+            background-color: var(--main-color);
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            width: 100vw;
+            position: absolute;
+            bottom: 0;
+            background-color: white;
+            box-shadow: #636363b5 0px 2px 8px 0px;
+        }
+
+        .menu .top-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .menu > .top-wrapper > .title {
+            margin: 0.5rem 0;
+            font-size: 1.75rem;
+            font-family: Merriweather;
+            font-weight: bold;
+        }
+
+        .menu[type="vplan"] .main-wrapper {
+            padding-bottom: 0.5rem;
+        }
+
+        .menu[type="vplan"] .title {
+            margin-left: 4vw;
+        }
+
+        .menu[type="vplan"] .title > small {
+            font-size: 1.2rem;
+            font-family: SPFontSemiBold;
+            font-weight: initial;
+        }
+
+        .menu[type="vplan"] .top-wrapper {
+            justify-content: left;
+        }
+
+        .menu .main-wrapper {
+            display: grid;
+            justify-content: center;
+            background-color: var(--main-color);
+            overflow-y: scroll;
+            max-height: 55vh;
+        }
+
+        .menu[type="login"] input {
+            margin: 2vw 0;
+            width: 80vw;
+            height: 15vw;
+            border: solid 1px #0c0c0d66;
+            border-radius: 3vw;
+            padding: 1vw 3vw;
+            font-size: 5vw;
+        }
+
+        .menu[type="login"] input[name="username"] {
+            width: 52vw;
+            margin-right: 2vw;
+        }
+
+        .menu[type="login"] input[name="id"] {
+            width: 25vw;
+            text-align: center;
+        }
+
+        .menu[type="login"] input[name="password"] {
+            width: 67vw;
+        }
+
+        .menu[type="login"] .input-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu .white-space {
+            height: 12vh;
+            width: 100vw;
+            background-color: var(--main-color);
+        }
+
+        /* CSS specific to the App running in Standalone (Chrome or Safari) */
+        html.standalone-app .menu .white-space {
+            height: 4vh;
+        }
+
+        @supports (-webkit-touch-callout: none) {
+            /* CSS specific to iOS devices */ 
+            .calendar-month > tbody > tr > th {
+                width: calc(95vw / 8);
+                min-width: calc(95vw / 8);
+            }
+
+            .calendar-month > tbody {
+                position: relative;
+                left: 47.5vw;
+                display: inline-block;
+            }
+
+            .calendar-month .events {
+                position: relative !important;
+                transform: translateX(-95vw);
+                    
+            }
+        }
+
+        .button.blue {
+            background-color: var(--button-default);
+            color: white;
+            text-align: center;
+        }
+
+        .button[action="login"] {
+            margin: 2vw 0;
+            height: 10vw;
+            border-radius: 3vw;
+            align-content: center;
+            display: grid;
+        }
+
+        small {
+            text-align: center;
+        }
+
+        .button-wrapper {
+            position: absolute;
+            right: 5vw;
+            margin-top: 1rem;
+            display: flex;
+        }
+
+        .button-wrapper.left {
+            left: 2.5vw;
+            right: unset;
+        }
+
+        .info-box {
+            width: 80vw;
+            border: solid 1px #0c0c0d66;
+            border-radius: 3vw;
+            margin-bottom: 4vw
+        }
+
+        .info-box .top {
+            background-color: var(--main-color);
+            position: absolute;
+            margin-top: -4vw;
+            display: inline-block;
+            margin-left: 4vw;
+            padding: 0 1vw;
+        }
+
+        .info-box .text {
+            padding: 2vw;
+            overflow: hidden;
+        }
+
+        .vertretungen th,
+        .vertretungen td {
+            padding: 1vw 2vw;
+            border: solid 1px #ddd;
+            text-align: center;
+        }
+
+        .vertretungen tr:nth-child(2n) {
+            background-color: #f1f1f1;
+        }
+
+        .vertretungen {
+            width: 85vw;
+            max-width: 85vw;
+            overflow: scroll;
+        }
+
+        .menu[type="vplan-news"] ul {
+            padding: 0 2rem;
+        }
+
+        .footer {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 4rem;
+            height: 3rem;
+            background-image: var(--gradient);
+            display: grid;
+            place-items: center;
+            border-top-left-radius: 1rem;
+            border-left: solid 2px white;
+            border-top: solid 2px white;
+            display: none;
+        }
+
+        .footer i::before {
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        .app-tile-overlay {
+            position: absolute;
+            height: 6rem;
+            width: 85vw;
+            background-color: rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            border-radius: 1rem;
+        }
+
+        .app-tile-dropdown-wrapper,
+        .app-tile-dropdown-background {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            z-index: 2;
+        }
+
+        .app-tile-dropdown {
+            position: absolute;
+        }
+
+        .app-tile-dropdown .top-wrapper {
+            position: relative;
+            margin: 0;
+            z-index: 999;
+        }
+
+        .app-tile-dropdown .main-wrapper {
+            background-color: var(--main-color);
+            position: relative;
+            opacity: 0;
+            padding: calc(1rem + 1vh) 5vw 1vh 5vw;
+            display: grid;
+            z-index: 998;
+            margin-top: -1rem;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            width: 85vw;
+        }
+
+        .app-tile-dropdown-background {
+            opacity: 0;
+            background-color: rgba(0, 0, 0, 0.35);
+        }
+
+        .app-tile-dropdown-element {
+            display: flex;
+            align-items: center;
+        }
+
+        .app-tile-dropdown-element:not(:first-child) {
+            margin-top: 1vh;
+            padding-top: 1vh;
+            border-top: solid 1px #f2f2f2;
+        }
+
+        .app-tile-dropdown-element p {
+            margin-left: 1.5vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 61vw;
+
+        }
+
+        .app-tile-dropdown-element .top-button {
+            width: 1.5rem;
+            height: 1.5rem;
+            font-size: 0.8rem;
+            right: 3vw;
+        }
+
+        .notification-reminder {
+            width: 4rem;
+            height: 4rem;
+            position: absolute;
+            border-radius: 2rem;
+            border: solid 2px white;
+            background-image: var(--gradient);
+            bottom: 1rem;
+            left: 1rem;
+            display: flex;
+            place-items: center;
+            justify-content: center;
+        }
+
+        .notification-reminder i.icon::before {
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .notification-reminder p {
+            color: white;
+            width: 47vw;
+            line-height: 4vw;
+            text-align: center;
+            margin: 0 1rem;
+        }
+
+        .notification-reminder .top-button {
+            position: relative;
+        }
+
+        .console {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            background-color: var(--main-color);
+            z-index: 4;
+        }
+
+        .console .output {
+            height: calc(100vh - 30px);
+            overflow-y: scroll;
+        }
+
+        .console .entry {
+            position: relative;
+        }
+
+        .console .entry, .console .input {
+            width: 100vw;
+            border: solid 1px #ddd;
+            padding: 0.1rem 0.5rem;
+            line-break: anywhere;
+        }
+
+        .console .input {
+            position: fixed;
+            bottom: 0;
+        }
+
+        .console .input input {
+            width: 80vw;
+        }
+
+        .console .input div {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        .console .input button {
+            border: solid 1px #ddd;
+        }
+
+        .menu[type="settings"] .main-wrapper {
+            display: flex;
+            height: auto;
+            flex-wrap: wrap;
+            overflow: hidden;
+            padding: 0 1rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .menu[type="cal"] .main-wrapper {
+            overflow-x: hidden;
+        }
+
+        .setting {
+            width: 5rem;
+            border: solid 1px #f2f2f2;
+            height: 3rem;
+            border-radius: 0.5rem;
+            display: flex;
+            place-items: center;
+            justify-content: center;
+        }
+
+        .setting-wrapper {
+            margin: 0.5rem;
+        }
+
+        .setting-wrapper p {
+            text-align: center;
+            margin-top: 0.25rem;
+        }
+
+        .setting i:not(.fa-angle-right) {
+            font-size: 1.25rem;
+        }
+
+        .setting i.fa-angle-right {
+            margin-left: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .setting-item {
+            width: 90vw;
+            display: flex;
+            padding: 0.75rem 0;
+            transform: translateX(100vw);
+        }
+
+        i.fa-solid.fa-spinner {
+            animation: rotating 1.5s ease-in-out infinite;
+        }
+
+        @keyframes rotating {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .setting-item .name {
+            font-size: 1.5rem;
+        }
+
+        .setting-item .name i {
+            margin-right: 0.25rem;
+        }
+
+        .setting-item .description {
+            color: #4f5762;
+            font-size: 0.9rem;
+            line-height: 1rem;
+        }
+
+        .setting-item .left {
+            width: 65%;
+        }
+
+        .setting-item .right {
+            display: grid;
+            width: 35%;
+            place-content: center;
+        }
+
+        .setting-item .action {
+            padding: 0.5rem 0.75rem;
+            background-color: var(--button-default);
+            color: white;
+            border-radius: 1rem;
+            text-align: center;
+            margin-left: 0.5rem;
+        }
+
+        .action.disabled {
+            background-color: var(--button-disabled);
+        }
+
+        .action.pressed:not(.disabled) {
+            background-color: var(--button-pressed);
+        }
+
+        .setting-item:not(:first-child) {
+            border-top: solid 2px #f2f2f2;
+        }
+
+        .menu[type="settings"] .note {
+            padding: 1rem;
+            padding-bottom: 0;
+            line-height: 1rem;
+            font-size: 90%;
+        }
+
+        .menu[type="cal"] .main-wrapper {
+            border: solid 1px #ddd;
+            margin-left: 2.5vw;
+            width: 95vw;
+        }
+
+        .calendar-month tbody tr:nth-child(1).main-header > th {
+            text-align: center;
+            border: solid 1px #ddd;
+            width: calc(95vw / 8);
+        }
+
+        .calendar-month tr {
+            position: relative;
+        }
+
+        .calendar-month tr[week] > td {
+            border: solid 1px #ddd;
+            text-align: center;
+            height: 4rem;
+            position: relative;
+        }
+
+        .calendar-month > tbody > tr:nth-child(1) > th {
+            border-top: none !important;
+        }
+
+        .calendar-month > tbody > tr:nth-child(7) > td {
+            border-bottom: none !important;
+            height: calc(5rem + 4px);
+        }
+
+        .calendar-month > tbody > tr > td:nth-child(1), .calendar-month > tbody > tr > th:nth-child(1) {
+            border-left: none !important;
+        }
+
+        .calendar-month > tbody > tr > td:nth-child(7), .calendar-month > tbody > tr > th:nth-child(7) {
+            border-right: none !important;
+        }
+        
+        .calendar-month > tbody > tr:not(:nth-child(1)) {
+            height: 4rem;
+        }
+
+        .calendar-month .day {
+            position: absolute;
+            top: 0;
+            text-align: right;
+            width: 100%;
+            padding-right: 0.25rem;
+            font-size: 0.8rem;
+            z-index: 1;
+        }
+
+        .calendar-month .day.outside {
+            color: #4f5762;
+        }
+
+        .calendar-month .events {
+            position: absolute;
+            left: 0;
+            top: 1.25rem;
+            width: 95vw;
+            height: calc(3.75rem + 3px);
+        }
+
+        .calendar-month .event {
+            height: 1.25rem;
+            width: calc(95vw / 8);
+            overflow: hidden;
+            font-size: 0.7rem;
+            color: white;
+            border: solid 1px black;
+            border-radius: 0.25rem;
+            font-family: Arial;
+            margin-top: 1px;
+            margin-left: 1px;
+            padding: 0;
+            padding-top: 1px;
+            position: absolute;
+            z-index: 2;
+            text-align: center;
+            background-image: linear-gradient(157deg, var(--event-gradient-color-1) 0%, var(--event-gradient-color-2) 100%);   
+        }
+
+        .calendar-month .event i::before {
+            color: white;
+        }
+
+        .calendar-month-selector {
+            background-color: #f2f2f2;
+            display: flex;
+            padding: 0.5rem;
+            border-radius: 2rem;
+            width: 11rem;
+            position: relative;
+            justify-content: center;
+        }
+
+        .calendar-month-selector i {
+            height: 1.5rem;
+            width: 1.5rem;
+            text-align: center;
+            display: grid;
+            place-content: center;
+            position: absolute;
+        }
+
+        .calendar-month-selector i:nth-child(1) {
+            left: 0.5rem;
+        }
+
+        .calendar-month-selector i:nth-child(3) {
+            right: 0.5rem;
+        }
+
+        .filter-selector {
+            margin-right: 1.5rem;
+        }
+
+        .filter-selector, .search {
+            background-color: #f2f2f2;
+            height: 2.5rem;
+            width: 2.5rem;
+            border-radius: 1.25rem;
+            display: flex;
+            place-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .search {
+            margin-left: 1.5rem;
+        }
+
+        .menu[type="cal"] .selection-wrapper {
+            display: flex;
+            place-content: center;
+            position: sticky;
+            top: 0;
+            background-color: var(--main-color);
+            padding-bottom: 1rem;
+            z-index: 3;
+            width: 100vw;
+            margin-bottom: 0.5rem;
+        }
+
+        .filters {
+            font-size: 0;
+            outline: none;
+            position: absolute;
+            width: 2.5rem;
+            height: 2.5rem;
+            top: 0;
+            left: 0;
+            border-radius: 1.25rem;
+            pointer-events: auto;
+            z-index: 100;
+            appearance: none;
+        }
+
+        .filter-selector i::before {
+            pointer-events: none;
+            position: relative;
+            z-index: 101;
+        }
+
+        .calendar-info-box {
+            position: fixed;
+            top: 1rem;
+            width: 90vw;
+            background-color: var(--main-color);
+            left: 5vw;
+            padding: 1rem;
+            border-radius: 1rem;
+            z-index: 3;
+        }
+
+        .calendar-info-box .top {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .calendar-info-box .top .icon, 
+        .calendar-month .event {
+            --event-gradient-color-1: #000;
+            --event-gradient-color-2: #000;
+            --event-gradient: linear-gradient(157deg, var(--event-gradient-color-1) 0%, var(--event-gradient-color-2) 100%);
+            background-image: var(--event-gradient);
+        }
+
+        .calendar-info-box .top .icon {
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 0.5rem;
+            margin-right: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .calendar-info-box .top .icon i::before {
+            color: #fff;
+        }
+
+        .calendar-info-box .top .title {
+            overflow: hidden;
+            margin-right: 2.5rem;
+            white-space: nowrap;
+        }
+
+        .calendar-info-box .buttons {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin: 0.5rem 0 0 0;
+        }
+
+        .calendar-info-box .button {
+            background-color: #f2f2f2;
+            color: #4f5762;
+            padding: 3px 9px;
+            border-radius: 1rem;
+            white-space: nowrap;
+            margin: 0 0.5rem 0.5rem 0;
+        }
+
+        .calendar-info-box .button i::before {
+            color: #4f5762;
+        }
+
+        .calendar-info-box .description {
+            line-height: 1rem;
+        }
+
+        .calendar-info-box .close-button {
+            right: 0;
+        }
+
+        .calendar-month .event .title {
+            color: white;
+            white-space: nowrap;
+            font-size: inherit;
+            font-family: inherit;
+            margin: 0;
+            margin-left: 3px;
+        }
+
+        .calendar-search {
+            position: absolute;
+            background-color: white;
+            padding: 0.5rem;
+            border-radius: 2.5rem;
+            opacity: 0;
+        }
+
+        .calendar-search i {
+            position: absolute;
+            left: 1rem;
+            font-size: 0.75rem;
+            top: 1.2rem;
+        }
+
+        .calendar-search input {
+            border: solid 1px #4f5762;
+            padding: 0.25rem 0.5rem;
+            padding-left: 0.5rem;
+            height: 2rem;
+            border-radius: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .force-reload-box {
+            position: fixed;
+            bottom: 1rem;
+            width: 90vw;
+            left: 5vw;
+            background-color: white;
+            display: flex;
+            place-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+        }
+
+        .force-reload-box img {
+            height: 3.5rem;
+        }
+
+        .force-reload-box p {
+            margin-left: 0.75rem;
+        }
+
+        .force-reload-box .top-button {
+            right: 1rem;
+        }
+
+        .status-wrapper {
+            overflow-y: auto;
+            height: 55vh;
+            width: 100vw;
+            justify-content: center;
+            display: grid;
+        }
+
+        .status-info {
+            align-items: center;
+            display: flex;
+            position: relative;
+            margin: 0.5rem 0;
+            border: solid 2px #f2f2f2;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            width: 80vw;
+        }
+
+        .status-info > img {
+            height: 4rem;
+        }
+
+        .status-info > div {
+            margin-left: 1rem;
+            width: 50vw;
+            line-height: 1rem;
+        }
+
+        .status-info small {
+            display: flex;
+        }
+
+        .menu[type="splan"] .main-wrapper {
+            width: 95vw;
+            margin-left: 2.5vw;
+            border: solid 1px #ddd;
+        }
+
+        .lesson-plan tr:nth-child(1) th {
+            border-top: none;
+        }
+
+        .lesson th:nth-child(1) {
+            width: 3rem;
+        }
+
+        .lesson-plan td:nth-child(1), .lesson-plan th:nth-child(1) {
+            border-left: none;
+        }
+
+        .lesson-plan td:nth-child(6), .lesson-plan th:nth-child(6) {
+            border-right: none;
+        }
+
+        .lesson-plan tr:last-child td {
+            border-bottom: none;
+        }
+
+        .lesson-plan td {
+            text-align: center;
+        }
+
+        .lesson-plan td[rowspan="2"] {
+            border-bottom: none;
+        }
+
+        .lesson-plan td:nth-child(1) {
+            line-height: 1rem;
+            font-weight: bold;
+        }
+
+        .lesson-plan td:nth-child(1) p {
+            display: inline-grid;
+            margin-top: 0.25rem;
+        }
+
+        .lesson-plan td:nth-child(1) small {
+            font-weight: initial;
+            display: inline-grid;
+            line-height: 0.75rem;
+            margin: 0.25rem 0.1rem;
+        }
+
+        .lesson-plan td, .lesson-plan th {
+            border: solid 1px #ddd;
+        }
+        
+        .lesson-plan .lesson {
+            padding: calc(0.25rem + 4px) 4px;
+            margin: 0 0.25rem;
+        }
+
+        .lesson-plan .lesson:not(:nth-child(1)) {
+            border-top: solid 3px #ddd;
+        }
+
+        .lesson-plan .lesson p:nth-child(1) {
+            font-weight: bold;
+            line-height: 1.25rem;
+        }
+
+        .lesson-plan .lesson p:nth-child(2) {
+            font-size: 0.75rem;
+            line-height: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .lesson-plan td.hovered, .calendar-month td.hovered {
+            background: #faf2cc;
+        }
+
+        .splan-switcher {
+            position: relative;
+        }
+
+        .splan-switcher i {
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .splan-switcher select {
+            pointer-events: auto;
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 1rem;
+            appearance: none;
+            outline: 0;
+            font-size: 0;
+            z-index: 0;
+        }
+
+        .header > p {
+            color: #fff;
+            font-size: 2.5rem;
+            margin-top: -0.25rem;
+            display: flex;
+        }
+
+        .header > p > small {
+            font-size: 45%;
+            align-self: start;
+            margin-top: 0.8rem;
+        }
+
+        .menu[type="splan"] .top-wrapper .title {
+            line-height: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .menu[type="splan"] .top-wrapper .title > small {
+            font-size: 0.75rem;
+            width: 100%;
+            display: inline-block;
+            font-family: SPFontSemiBold;
+            font-weight: initial;
+        }
+
+        .header > .settings {
+            position: absolute;
+            border-top: solid 0.25rem white;
+            border-left: solid 0.25rem white;
+            padding: 0.3rem 0.5rem;
+            bottom: 0;
+            right: 0;
+            border-top-left-radius: 1rem;
+        }
+
+        .header > .settings > i {
+            font-size: 1.75rem;
+            margin: 2px 0 0 3px;
+        }
+
+        .header > .settings > i::before {
+            color: white;
+        }
+
+        .messages-selector {
+            display: flex;
+            background: #f2f2f2;
+            padding: 0.5rem;
+            border-radius: 2rem;
+            width: fit-content;
+            justify-self: center;
+        }
+
+        .messages-selector > .selector {
+            padding: 0 1rem;
+        }
+
+        .messages-selector > .selector.selected {
+            text-decoration: underline;
+        }
+
+        .messages-browser {
+            width: 90vw;
+            margin-top: 1rem;
+        }
+
+        .messages-browser .message {
+            display: flex;
+            height: 4.5rem;
+            padding: 1rem 0.5rem;
+            border: solid 1px;
+            border-radius: 0.75rem;
+        }
+
+        .messages-browser .message .icon {
+            height: 2.5rem;
+            width: 2.5rem;
+            border-radius: 1.25rem;
+        }
+
+        .messages-browser .message div {
+            margin-left: 0.5rem;
+            width: 70vw;
+            display: grid;
+        }
+
+        .messages-browser .message .name {
+            line-height: 1rem;
+        }
+
+        .messages-browser .message .name span {
+            color: #4f5762;
+            float: right;
+            font-size: 0.8rem;
+        }
+
+        .messages-browser .message .description {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1rem;
+            font-size: 0.8rem;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="image generic"></div>
+        <div class="overlay"></div>
+    </div>
+    <div class="wrapper">
+        <div class="header">
+            <p>Schulportal<small>APP</small></p>
+            <div class="settings" onclick="openMenu('settings');">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+        <div class="app-tile-container flex w-100 justify-center flex-row flex-wrap d-none" style="overflow-y: auto;">
+            <div class="app-tile" type="moodle">
+                <div class="app-tile-overlay"></div>
+                <div class="app-tile-icon fab fa-jsfiddle"></div>
+                <div class="app-tile-title">
+                    SchulMoodle
+                    <div class="app-tile-news-wrapper"></div>
+                </div>
+            </div>
+            <div class="app-tile" type="splan">
+                <div class="app-tile-overlay"></div>
+                <div class="app-tile-icon fas fa-hourglass-half"></div>
+                <div class="app-tile-title">
+                    Stundenplan
+                    <div class="app-tile-news-wrapper"></div>
+                </div>
+            </div>
+            <div class="app-tile" type="vplan">
+                <div class="app-tile-overlay"></div>
+                <div class="app-tile-icon fas fa-book"></div>
+                <div class="app-tile-title">
+                    Vertretungsplan
+                    <div class="app-tile-news-wrapper"></div>
+                </div>
+            </div>
+            <div class="app-tile" type="cal">
+                <div class="app-tile-overlay"></div>
+                <div class="app-tile-icon fa-solid fa-calendar-days"></div>
+                <div class="app-tile-title">
+                    Schulkalender
+                    <div class="app-tile-news-wrapper">
+                        <div class="app-tile-news">Wird geladen</div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-tile" type="messages">
+                <div class="app-tile-overlay"></div>
+                <div class="app-tile-icon fa-solid fa-envelope-open-text"></div>
+                <div class="app-tile-title">
+                    Direktnachrichten
+                    <div class="app-tile-news-wrapper">
+                        <div class="app-tile-news">Keine neuen Nachrichten</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer d-none">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </div>
+    <div class="progress-box-wrapper">
+        <div class="progress-box">
+            <img src="https://derownerhd.github.io/skyblock/loading.gif">
+            <div>
+                <p>Wird geladen</p>
+                <small></small>
+            </div>
+        </div>
+    </div>
+    <div class="menu-wrapper">
+        <div class="menu d-none" type="login">
+            <div class="top-wrapper">
+                <div class="title">
+                    Anmeldung
+                </div>
+                <div class="button-wrapper">
+                    <div class="top-button" action="help">
+                        <i class="fa-solid fa-question"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="main-wrapper">
+                <div class="input-wrapper">
+                    <input name="username" placeholder="Vorname.Nachname" autofocus="" value="" required="" data-form-prefill="username">
+                    <input name="id" placeholder="Schule" autofocus="" value="" required="">
+                </div>
+                <div class="input-wrapper">
+                    <input name="password" type="password" placeholder="Passwort" value="" required="" data-form-prefill="password">
+                    <div class="top-button" action="password-visibility">
+                        <i class="fa-solid fa-eye-slash"></i>
+                    </div>
+                </div>
+                <div class="button blue" action="login">
+                    Anmelden
+                </div>
+                <small>Deine Daten werden im Browser gespeichert</small>
+            </div>
+            <div class="white-space"></div>
+        </div>
+        <div class="menu d-none" type="login-help">
+            <div class="top-wrapper">
+                <div class="title">
+                    Anmeldehilfe
+                </div>
+                <div class="button-wrapper">
+                    <div class="close-button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="main-wrapper">
+                <div class="info-box">
+                    <div class="top">Name</div>
+                    <div class="text">Max.Mustermann</div>
+                </div>
+                <div class="info-box">
+                    <div class="top">Passwort</div>
+                    <div class="text">Dein Passwort <small>(Hoffentlich gut)</small></div>
+                </div>
+                <div class="info-box">
+                    <div class="top">ID</div>
+                    <div class="text">ID der Schule <small>(1-9999)</small></div>
+                </div>
+            </div>
+            <div class="white-space"></div>
+        </div>
+        <div class="menu d-none" type="splan">
+            <div class="top-wrapper">
+                <div class="title">
+                    Stundenplan
+                    <small>Fehler beim Laden</small>
+                </div>
+                <div class="button-wrapper">
+                    <div class="close-button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+                <div class="button-wrapper left">
+                    <div class="top-button splan-switcher">
+                        <i class="fa-solid fa-repeat"></i>
+                        <select></select>
+                    </div>
+                </div>
+            </div>
+            <div class="main-wrapper">
+                <table class="lesson-plan">
+                    <tr>
+                        <th>
+                            <i class="fa-solid fa-clock"></i>
+                        </th>
+                        <th>Mo</th>
+                        <th>Di</th>
+                        <th>Mi</th>
+                        <th>Do</th>
+                        <th>Fr</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="white-space"></div>
+        </div>
+        <div class="menu d-none" type="cal">
+            <div class="top-wrapper">
+                <div class="title">
+                    Kalender
+                </div>
+                <div class="button-wrapper">
+                    <div class="top-button" action="export">
+                        <i class="fa-solid fa-download"></i>
+                    </div>
+                    <div class="close-button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="selection-wrapper">
+                <div class="filter-selector">
+                    <select class="filters">
+                        <option value="0" selected="">Alle</option>
+                        <option value="1">Klausur</option>
+                        <option value="2">Interne Fortbildung</option>
+                        <option value="3">Besprechung</option>
+                        <option value="4">Veranstaltung</option>
+                        <option value="5">Schulfrei</option>
+                        <option value="6">Konferenz</option>
+                        <option value="7">Wartung</option>
+                        <option value="8">Fachkonferenz</option>
+                        <option value="9">Externe Fortbildung</option>
+                        <option value="10">Abitur</option>
+                    </select>
+                    <i class="fa-solid fa-filter"></i>
+                </div>
+                <div class="calendar-month-selector">
+                    <i class="calendar-month-move fa-solid fa-angle-left" direction="left"></i>
+                    <p>Wird geladen</p>
+                    <i class="calendar-month-move fa-solid fa-angle-right" direction="right"></i>
+                </div>
+                <div class="search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+            <div class="main-wrapper">
+                <table class="calendar-month">
+                    <tr class="main-header">
+                        <th>KW</th>
+                        <th>Mo</th>
+                        <th>Di</th>
+                        <th>Mi</th>
+                        <th>Do</th>
+                        <th>Fr</th>
+                        <th>Sa</th>
+                        <th>So</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="white-space"></div>
+        </div>
+        <div class="menu d-none" type="cal-export">
+            <div class="top-wrapper">
+                <div class="title">
+                    Export
+                </div>
+                <div class="button-wrapper">
+                    <div class="top-button" action="copy">
+                        <i class="fa-regular fa-clipboard"></i>
+                    </div>
+                    <div class="close-button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="main-wrapper">
+                <div class="info-box" style="justify-self: center;">
+                    <div class="top">Link</div>
+                    <div class="text">Wird geladen</div>
+                </div>
+                <p style="text-align: center; padding: 0 2rem;">Mithilfe dieses Links wird der Kalender in deinem Programm immer aktuell gehalten. Halte diesen Link immer geheim!</p>
+            </div>
+            <div class="white-space"></div>
+        </div>
+        <div class="menu d-none" type="vplan">
+            <div class="top-wrapper">
+                <div class="title">
+                    N/A
+                    <small>N/A</small>
+                </div>
+                <div class="button-wrapper">
+                    <div class="top-button extended" action="relative">
+                        <p class="text"></p>
+                    </div>
+                    <div class="top-button extended icon" action="news">
+                        <i class="fa-solid fa-newspaper"></i>
+                        <p class="text">0</p>
+                    </div>
+                    <div class="top-button" action="switch">
+                        <i class="fa-solid fa-repeat"></i>
+                    </div>
+                    <div class="close-button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="main-wrapper">
+                <table class="vertretungen">
+                    <tr>
+                        <th><i class="fa-solid fa-clock"></i></th>
+                        <th><i class="fa-solid fa-book"></i></th>
+                        <th><i class="fa-solid fa-user"></i></th>
+                        <th><i class="fa-solid fa-user-slash"></i></th>
+                        <th><i class="fa-solid fa-location-dot"></i></th>
+                        <th><i class="fa-solid fa-info"></i></th>
+                    </tr>
+                    <div></div>
+                </table>
+                <p class="empty">Keine Vertretungen</p>
+            </div>
+            <div class="footer-wrapper">
+                <div class="top-button extended icon" action="last-refreshed">
+                    <i class="fa-regular fa-clock"></i>
+                    <p class="text">N/A</p>
+                </div>
+            </div>
+            <div class="white-space"></div>
+        </div>
+        <div class="menu d-none" type="vplan-news">
+            <div class="top-wrapper">
+                <div class="title">
+                    Neuigkeiten
+                </div>
+                <div class="button-wrapper">
+                    <div class="close-button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="main-wrapper"></div>
+            <div class="white-space"></div>
+        </div>
+        <div class="menu d-none" type="settings">
+            <div class="top-wrapper">
+                <div class="title">
+                    Einstellungen
+                </div>
+                <div class="button-wrapper left">
+                    <div class="top-button d-none" action="back">
+                        <i class="fa-solid fa-angle-left"></i>
+                    </div>
+                </div>
+                <div class="button-wrapper">
+                    <div class="close-button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="main-wrapper"></div>
+            <div class="white-space"></div>
+        </div>
+        <div class="menu d-none" type="messages">
+            <div class="top-wrapper">
+                <div class="title">
+                    Nachrichten
+                </div>
+                <div class="button-wrapper">
+                    <div class="close-button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="main-wrapper">
+                <div class="messages-selector">
+                    <div class="selector">Schulportal</div>
+                    |
+                    <div class="selector selected">Moodle</div>
+                </div>
+                <div class="messages-browser">
+                    <div class="message">
+                        <img class="icon" src="https://cdn.vox-cdn.com/uploads/chorus_asset/file/22312759/rickroll_4k.jpg">
+                        <div>
+                            <p class="name">Name<span>1. Januar 1970</span></p>
+                            <p class="description">testsetsetsetsetsetsetsetsetsetsetsetsetsetsetsetset</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-details d-none"></div>
+            </div>
+            <div class="white-space"></div>
+        </div>
+    </div>
+    <div class="notification-reminder d-none">
+        <i class="fa-regular fa-bell icon"></i>
+        <div class="top-button d-none" action="notifications-no">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+        <p class="d-none">Dürfen wir dir Benachrichtungen senden?</p>
+        <div class="top-button d-none" action="notifications-yes">
+            <i class="fa-solid fa-check"></i>
+        </div>   
+    </div>
+    <div class="calendar-info-box d-none">
+        <div class="top">
+            <div class="icon">
+                N/A
+            </div>
+            <div class="title">Kein Titel</div>
+            <div class="close-button">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+        <div class="buttons">
+            <div class="button">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>N/A</span>
+            </div>
+            <div class="button">
+                <i class="fa-regular fa-clock"></i>
+                <span>Wird geladen</span>
+            </div>
+            <div class="button d-none">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+        </div>
+        <div class="description">
+            Keine Beschreibung
+        </div>
+    </div>
+    <div class="calendar-search d-none">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input placeholder="Suchen" value="">
+    </div>
+    <div class="force-reload-box d-none">
+        <img src="https://i.imgur.com/vOzclrW.png">
+        <p>Anmeldedaten abgelaufen</p>
+        <div class="top-button" onclick="location.reload()">
+            <i class="fa-solid fa-rotate-right"></i>
+        </div>
+    </div>
+    <div class="app-tile-dropdown-wrapper d-none">
+        <div class="app-tile-dropdown-background"></div>
+    </div>
+    <div class="dialog-wrapper">
+        <div class="dialog-box-container">
+            <div class="dialog-box">
+                <div class="title">
+                    Abmeldung
+                    <div class="close-button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+                <div class="text">
+                    Durch eine Abmeldung werden deine Anmeldedaten gelöscht
+                </div>
+                <div class="actions">
+                    <div class="action danger" action="logoff">
+                        Weiter
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="no-rotate">
+        <div class="no-rotate-text-wrapper">
+            <h1>Nur im Hochformat verfügbar</h1>
+        </div>
+    </div>
+    <div class="console d-none">
+        <div class="output"></div>
+        <div class="input">
+            <input placeholder="JS Code hier eingeben" autocomplete="off" spellcheck="false" autocorrect="off">
+            <div>
+                <button onclick="$('.console').addClass('d-none')">X</button>
+                <button onclick="evalConsoleInput()">Los!</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const workerChannel = new BroadcastChannel("worker");
+    $(document).ready(async () => {
+        $("head").append(`<script src="/app.js"><\/script>`);
+        
+        generateConsoleLogger();
+        console.log("Loaded!");
+        // This indicates that that isn't a debugging enviroment
+        if (location.href.startsWith("https://"))
+            orientationChange();
+        else {
+            $(":root").addClass("dev");
+            $(".header > p > small").html("DEV");
+        }
+
+        checkForServiceWorkerUpdates();
+
+        $(".menu-wrapper").hide();
+
+        if (!localStorage.getItem("settings"))
+            firstLoad();
+
+        checkLogin();
+
+        if (Notification.permission === "granted" && !getSetting("noServiceWorker"))
+            loadServiceWorker(false);
+
+        if (navigator.standalone || window.matchMedia("(display-mode: standalone)").matches)
+            $("html").addClass("standalone-app");
+
+        document.querySelector(".calendar-search input").value = "";
+
+    });
+</script>
+
+</html>
