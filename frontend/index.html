@@ -14,15 +14,16 @@
     <link rel="preconnect" href="https://derownerhd.github.io">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400&display=swap" rel="stylesheet">
+    <script src="/app.js" defer></script>
     <style>
         @font-face {
             font-family: SPFontSemiBold;
-            src: url("/font/semibold");
+            src: url("/font/semibold.otf");
         }
 
         @font-face {
             font-family: SPFontBold;
-            src: url("/font/bold");
+            src: url("/font/bold.otf");
         }
 
         html.light {
@@ -488,6 +489,8 @@
 
         .menu[type="vplan"] .main-wrapper {
             padding-bottom: 0.5rem;
+            width: 85vw;
+            margin-left: 7.5vw;
         }
 
         .menu[type="vplan"] .title {
@@ -508,7 +511,7 @@
             display: grid;
             justify-content: center;
             background-color: var(--main-color);
-            overflow-y: scroll;
+            overflow-y: auto;
             max-height: 55vh;
         }
 
@@ -1898,7 +1901,6 @@
 <script>
     const workerChannel = new BroadcastChannel("worker");
     $(document).ready(async () => {
-        $("head").append(`<script src="/app.js"><\/script>`);
         
         generateConsoleLogger();
         console.log("Loaded!");
@@ -1929,5 +1931,4 @@
 
     });
 </script>
-
 </html>
