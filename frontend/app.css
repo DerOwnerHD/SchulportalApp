@@ -1,607 +1,1449 @@
-/*
-! tailwindcss v3.2.6 | MIT License | https://tailwindcss.com
-*/
-
-/*
-1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
-2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
-*/
-
-*,
-::before,
-::after {
-  box-sizing: border-box;
-  /* 1 */
-  border-width: 0;
-  /* 2 */
-  border-style: solid;
-  /* 2 */
-  border-color: #e5e7eb;
-  /* 2 */
+@font-face {
+    font-family: SPFontSemiBold;
+    src: url("/font/semibold.otf");
 }
 
-::before,
-::after {
-  --tw-content: '';
+@font-face {
+    font-family: SPFontBold;
+    src: url("/font/bold.otf");
 }
 
-/*
-1. Use a consistent sensible line-height in all browsers.
-2. Prevent adjustments of font size after orientation changes in iOS.
-3. Use a more readable tab size.
-4. Use the user's configured `sans` font-family by default.
-5. Use the user's configured `sans` font-feature-settings by default.
-*/
-
-html {
-  line-height: 1.5;
-  /* 1 */
-  -webkit-text-size-adjust: 100%;
-  /* 2 */
-  -moz-tab-size: 4;
-  /* 3 */
-  -o-tab-size: 4;
-     tab-size: 4;
-  /* 3 */
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  /* 4 */
-  font-feature-settings: normal;
-  /* 5 */
+html.light {
+    --main-color: #fff;
+    --text-color: #000;
+    --button-default: #0060df;
+    --button-pressed: #033475;
+    --button-disabled: #848b95;
 }
 
-/*
-1. Remove the margin in all browsers.
-2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
-*/
+html.dark {
+    --main-color: #000;
+    --text-color: #fff;
+}
+
+html,
+body {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    touch-action: none;
+    -ms-touch-action: none;
+}
+
+p, i::before, .title {
+    color: var(--text-color);
+}
 
 body {
-  margin: 0;
-  /* 1 */
-  line-height: inherit;
-  /* 2 */
+    background-color: var(--main-color);
 }
 
-/*
-1. Add the correct height in Firefox.
-2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
-3. Ensure horizontal rules are visible by default.
-*/
-
-hr {
-  height: 0;
-  /* 1 */
-  color: inherit;
-  /* 2 */
-  border-top-width: 1px;
-  /* 3 */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-/*
-Add the correct text decoration in Chrome, Edge, and Safari.
-*/
-
-abbr:where([title]) {
-  -webkit-text-decoration: underline dotted;
-          text-decoration: underline dotted;
+:root {
+    font-family: SPFontSemiBold;
+    --gradient: linear-gradient(to right, #18d6ee, #3a7bd5);
 }
 
-/*
-Remove the default font size and weight for headings.
-*/
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-size: inherit;
-  font-weight: inherit;
+:root.dev {
+    --gradient: linear-gradient(to right, #3ab4ae, #19d168);
 }
 
-/*
-Reset links to optimize for opt-in styling instead of opt-out.
-*/
-
-a {
-  color: inherit;
-  text-decoration: inherit;
+.app-tile-container {
+    padding-top: 5.25rem;
+    padding-bottom: 3rem;
+    max-height: 100vh;
 }
 
-/*
-Add the correct font weight in Edge and Safari.
-*/
-
-b,
-strong {
-  font-weight: bolder;
+.app-tile,
+.app-tile-dropdown .top-wrapper {
+    height: 6rem;
+    width: 85vw;
+    border-radius: 1rem;
+    background-color: var(--main-color);
+    margin: 0.3rem 0;
+    cursor: pointer;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
 }
 
-/*
-1. Use the user's configured `mono` font family by default.
-2. Correct the odd `em` font sizing in all browsers.
-*/
-
-code,
-kbd,
-samp,
-pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  /* 1 */
-  font-size: 1em;
-  /* 2 */
+.app-tile[type="moodle"],
+.app-tile-dropdown[type="moodle"] .top-wrapper {
+    background-image: linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%);
 }
 
-/*
-Add the correct font size in all browsers.
-*/
+.app-tile[type="splan"],
+.app-tile-dropdown[type="splan"] .top-wrapper {
+    background-image: linear-gradient(315deg, #008eff 0%, #05e7ec 74%);
+}
+
+.app-tile[type="vplan"],
+.app-tile-dropdown[type="vplan"] .top-wrapper {
+    background-image: linear-gradient(315deg, #168647 0%, #24df62 70%);
+}
+
+.app-tile[type="cal"],
+.app-tile-dropdown[type="cal"] .top-wrapper {
+    background-image: linear-gradient(315deg, #86163e 0%, #df243a 70%);
+}
+
+.app-tile[type="messages"],
+.app-tile-dropdown[type="messages"] .top-wrapper {
+    background-image: linear-gradient(315deg, #fdbb2d 0%, #fda52d 70%);
+}
+
+.app-tile[type="settings"],
+.app-tile-dropdown[type="settings"] .top-wrapper {
+    background-image: linear-gradient(315deg, rgba(128,128,128,1) 0%, rgba(168,168,168,1) 70%);
+}
+
+.app-tile-icon {
+    width: 3rem;
+    margin-left: 1.5rem;
+    text-align: center;
+}
+
+.app-tile-icon::before {
+    color: white;
+    font-size: 3rem;
+}
+
+.app-tile-title {
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    color: white;
+    text-align: center;
+    width: calc(85vw - 7rem);
+}
+
+.app-tile-notification {
+    background-color: red;
+    height: 1.8rem;
+    width: 1.8rem;
+    border-radius: 0.9rem;
+    font-size: 1.5rem;
+    color: white;
+    position: relative;
+    text-align: center;
+    display: grid;
+    place-content: center;
+    top: -1rem;
+    left: -7rem;
+}
+
+.shadow,
+.app-tile,
+.app-tile-notification,
+.progress-box,
+.app-tile-dropdown .main-wrapper,
+.app-tile-dropdown .top-wrapper,
+.notification-reminder,
+.setting,
+.setting-item .action,
+.calendar-info-box,
+.calendar-search,
+.force-reload-box,
+.status-info {
+    --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.text-shadow,
+.app-tile-icon::before,
+.app-tile-title {
+    text-shadow: 0 8px 15px rgba(0, 0, 0, 0.2)
+}
+
+.wrapper,
+.menu-wrapper,
+.dialog-wrapper,
+.progress-box-wrapper {
+    overflow: hidden;
+}
+
+.no-rotate {
+    background-color: black;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    display: none;
+}
+
+.no-rotate-text-wrapper {
+    height: 100%;
+    width: 100%;
+    place-items: center;
+    display: grid;
+}
+
+.no-rotate h1 {
+    color: white;
+    width: 100vw;
+    place-self: center;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.dialog-box-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    backdrop-filter: blur(3px);
+    display: grid;
+}
+
+.dialog-box {
+    width: 75vw;
+    height: 9rem;
+    border-radius: 1rem;
+    place-self: center;
+    background-color: var(--main-color);
+}
+
+.dialog-box .title,
+.bold {
+    font-family: SPFontBold;
+    margin: 0.5rem 1rem;
+    font-size: 1.5rem;
+    display: flex;
+    width: 100%;
+}
+
+.dialog-box .text {
+    margin: 0 1rem;
+    line-height: 1rem;
+}
+
+.close-button,
+.top-button {
+    background-color: #f2f2f2;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 1rem;
+    display: grid;
+    place-content: center;
+    position: absolute;
+}
+
+.top-button.extended {
+    width: 4rem;
+    display: flex;
+    place-items: center;
+}
+
+.top-button.extended.icon .text {
+    margin-left: 0.5rem;
+}
+
+.top-button.extended[action="relative"] {
+    width: auto;
+    padding: 0.5rem;
+}
+
+.top-button.extended[action="last-refreshed"] {
+    width: fit-content;
+    margin-top: 0.5rem;
+    padding: 0 1rem;
+}
+
+.dialog-box .title .close-button {
+    left: 75vw;
+    place-self: end;
+}
+
+.menu .top-button,
+.menu .close-button {
+    position: relative;
+    margin-left: 7px;
+}
+
+.close-button i::before,
+.top-button i::before,
+.top-button.extended .text {
+    color: #4f5762;
+    align-self: center;
+}
+
+.dialog-box-container.out .dialog-box {
+    animation-name: dialogBoxOut;
+    animation-duration: 500ms;
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.menu .footer-wrapper {
+    position: absolute;
+    display: grid;
+    justify-content: center;
+    width: 100%;
+    padding: 0.5rem 0;
+    background-color: var(--main-color);
+}
+
+@keyframes dialogBoxOut {
+    0% {
+transform: scale(100%);
+    }
+
+    10% {
+transform: scale(105%);
+    }
+
+    100% {
+transform: scale(0);
+    }
+}
+
+.dialog-wrapper {
+    display: none;
+}
+
+.actions {
+    height: 1.5rem;
+    width: calc(100% - 2rem);
+    margin: 0.75rem 1rem;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.action.danger {
+    background-color: red;
+    padding: 2px 5px;
+    width: auto;
+    height: 2rem;
+    max-width: 5rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    color: var(--main-color);
+    font-size: 1.2rem;
+}
+
+.header {
+    border-bottom: solid white 0.5rem;
+    background: var(--gradient);
+    position: fixed;
+    height: 5rem;
+    width: 100vw;
+    top: 0;
+    display: grid;
+    place-items: center;
+    z-index: 1;
+}
+
+.header-name {
+    height: 50%;
+    margin-top: 0.25rem;
+}
+
+.background .image {
+    position: fixed;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+    z-index: -999;
+    top: 0;
+}
+
+.background .overlay {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.35);
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    z-index: -998;
+}
+
+.app-tile-news-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.app-tile-news {
+    background-color: rgba(255, 255, 255, 0.35);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0 0.25rem;
+    margin: 0 0.2rem;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.app-tile-news i {
+    margin-left: 0.2rem;
+}
+
+.app-tile-news i::before {
+    color: white;
+}
+
+.d-none {
+    display: none !important;
+}
+
+.progress-box-wrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+}
+
+.progress-box {
+    background-color: var(--main-color);
+    width: 85vw;
+    height: 30vw;
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    margin-top: -20vh;
+}
+
+.progress-box img {
+    height: 15vw;
+    margin: 0 4vw;
+}
+
+.progress-box p {
+    margin-bottom: -2vw;
+}
+
+.progress-box small {
+    margin-top: 0.5rem;
+    line-height: 0.8rem;
+    display: grid;
+    text-align: left;
+}
+
+.background .image.generic {
+    background-image: url("https://start.schulportal.hessen.de/img/schulbg/default-lg.jpg") !important;
+}
+
+.menu-wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    overflow: hidden;
+}
+
+.menu {
+    background-color: var(--main-color);
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    width: 100vw;
+    position: absolute;
+    bottom: 0;
+    background-color: white;
+    box-shadow: #636363b5 0px 2px 8px 0px;
+}
+
+.menu .top-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.menu > .top-wrapper > .title {
+    margin: 0.5rem 0;
+    font-size: 1.75rem;
+    font-family: Merriweather;
+    font-weight: bold;
+}
+
+.menu[type="vplan"] .main-wrapper {
+    padding-bottom: 0.5rem;
+    width: 85vw;
+    margin-left: 7.5vw;
+    justify-content: start;
+}
+
+.menu[type="vplan"] .main-wrapper .empty {
+    text-align: center;
+    width: 85vw;
+}
+
+.menu[type="vplan"] .title {
+    margin-left: 4vw;
+}
+
+.menu[type="vplan"] .title > small {
+    font-size: 1.2rem;
+    font-family: SPFontSemiBold;
+    font-weight: initial;
+}
+
+.menu[type="vplan"] .top-wrapper {
+    justify-content: left;
+}
+
+.menu .main-wrapper {
+    display: grid;
+    justify-content: center;
+    background-color: var(--main-color);
+    overflow-y: auto;
+    max-height: 55vh;
+}
+
+.menu[type="login"] input {
+    margin: 2vw 0;
+    width: 80vw;
+    height: 15vw;
+    border: solid 1px #0c0c0d66;
+    border-radius: 3vw;
+    padding: 1vw 3vw;
+    font-size: 5vw;
+}
+
+.menu[type="login"] input[name="username"] {
+    width: 52vw;
+    margin-right: 2vw;
+}
+
+.menu[type="login"] input[name="id"] {
+    width: 25vw;
+    text-align: center;
+}
+
+.menu[type="login"] input[name="password"] {
+    width: 67vw;
+}
+
+.menu[type="login"] .input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.menu .white-space {
+    height: 12vh;
+    width: 100vw;
+    background-color: var(--main-color);
+}
+
+/* CSS specific to the App running in Standalone (Chrome or Safari) */
+html.standalone-app .menu .white-space {
+    height: 4vh;
+}
+
+@supports (-webkit-touch-callout: none) {
+    /* CSS specific to iOS devices */
+    .calendar-month > tbody > tr > th {
+width: calc(95vw / 8);
+min-width: calc(95vw / 8);
+    }
+
+    .calendar-month > tbody {
+position: relative;
+left: 47.5vw;
+display: inline-block;
+    }
+
+    .calendar-month .events {
+position: relative !important;
+transform: translateX(-95vw);
+
+    }
+}
+
+.button.blue {
+    background-color: var(--button-default);
+    color: white;
+    text-align: center;
+}
+
+.button[action="login"] {
+    margin: 2vw 0;
+    height: 10vw;
+    border-radius: 3vw;
+    align-content: center;
+    display: grid;
+}
 
 small {
-  font-size: 80%;
+    text-align: center;
 }
 
-/*
-Prevent `sub` and `sup` elements from affecting the line height in all browsers.
-*/
-
-sub,
-sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
+.button-wrapper {
+    position: absolute;
+    right: 5vw;
+    margin-top: 1rem;
+    display: flex;
 }
 
-sub {
-  bottom: -0.25em;
+.button-wrapper.left {
+    left: 2.5vw;
+    right: unset;
 }
 
-sup {
-  top: -0.5em;
+.info-box {
+    width: 80vw;
+    border: solid 1px #0c0c0d66;
+    border-radius: 3vw;
+    margin-bottom: 4vw
 }
 
-/*
-1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
-2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
-3. Remove gaps between table borders by default.
-*/
-
-table {
-  text-indent: 0;
-  /* 1 */
-  border-color: inherit;
-  /* 2 */
-  border-collapse: collapse;
-  /* 3 */
+.info-box .top {
+    background-color: var(--main-color);
+    position: absolute;
+    margin-top: -4vw;
+    display: inline-block;
+    margin-left: 4vw;
+    padding: 0 1vw;
 }
 
-/*
-1. Change the font styles in all browsers.
-2. Remove the margin in Firefox and Safari.
-3. Remove default padding in all browsers.
-*/
-
-button,
-input,
-optgroup,
-select,
-textarea {
-  font-family: inherit;
-  /* 1 */
-  font-size: 100%;
-  /* 1 */
-  font-weight: inherit;
-  /* 1 */
-  line-height: inherit;
-  /* 1 */
-  color: inherit;
-  /* 1 */
-  margin: 0;
-  /* 2 */
-  padding: 0;
-  /* 3 */
+.info-box .text {
+    padding: 2vw;
+    overflow: hidden;
 }
 
-/*
-Remove the inheritance of text transform in Edge and Firefox.
-*/
-
-button,
-select {
-  text-transform: none;
+.vertretungen th,
+.vertretungen td {
+    padding: 1vw 2vw;
+    border: solid 1px #ddd;
+    text-align: center;
 }
 
-/*
-1. Correct the inability to style clickable types in iOS and Safari.
-2. Remove default button styles.
-*/
-
-button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
-  -webkit-appearance: button;
-  /* 1 */
-  background-color: transparent;
-  /* 2 */
-  background-image: none;
-  /* 2 */
+.vertretungen tr:nth-child(2n) {
+    background-color: #f1f1f1;
 }
 
-/*
-Use the modern Firefox focus style for all focusable elements.
-*/
-
-:-moz-focusring {
-  outline: auto;
+.vertretungen {
+    width: 85vw;
+    max-width: 85vw;
+    overflow: scroll;
 }
 
-/*
-Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
-*/
-
-:-moz-ui-invalid {
-  box-shadow: none;
+.menu[type="vplan-news"] ul {
+    padding: 0 2rem;
 }
 
-/*
-Add the correct vertical alignment in Chrome and Firefox.
-*/
-
-progress {
-  vertical-align: baseline;
+.footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 4rem;
+    height: 3rem;
+    background-image: var(--gradient);
+    display: grid;
+    place-items: center;
+    border-top-left-radius: 1rem;
+    border-left: solid 2px white;
+    border-top: solid 2px white;
+    display: none;
 }
 
-/*
-Correct the cursor style of increment and decrement buttons in Safari.
-*/
-
-::-webkit-inner-spin-button,
-::-webkit-outer-spin-button {
-  height: auto;
+.footer i::before {
+    font-size: 2rem;
+    color: #fff;
 }
 
-/*
-1. Correct the odd appearance in Chrome and Safari.
-2. Correct the outline style in Safari.
-*/
-
-[type='search'] {
-  -webkit-appearance: textfield;
-  /* 1 */
-  outline-offset: -2px;
-  /* 2 */
+.app-tile-overlay {
+    position: absolute;
+    height: 6rem;
+    width: 85vw;
+    background-color: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    border-radius: 1rem;
 }
 
-/*
-Remove the inner padding in Chrome and Safari on macOS.
-*/
-
-::-webkit-search-decoration {
-  -webkit-appearance: none;
+.app-tile-dropdown-wrapper,
+.app-tile-dropdown-background {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    z-index: 2;
 }
 
-/*
-1. Correct the inability to style clickable types in iOS and Safari.
-2. Change font properties to `inherit` in Safari.
-*/
-
-::-webkit-file-upload-button {
-  -webkit-appearance: button;
-  /* 1 */
-  font: inherit;
-  /* 2 */
+.app-tile-dropdown {
+    position: absolute;
 }
 
-/*
-Add the correct display in Chrome and Safari.
-*/
-
-summary {
-  display: list-item;
+.app-tile-dropdown .top-wrapper {
+    position: relative;
+    margin: 0;
+    z-index: 999;
 }
 
-/*
-Removes the default spacing and border for appropriate elements.
-*/
-
-blockquote,
-dl,
-dd,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-hr,
-figure,
-p,
-pre {
-  margin: 0;
+.app-tile-dropdown .main-wrapper {
+    background-color: var(--main-color);
+    position: relative;
+    opacity: 0;
+    padding: calc(1rem + 1vh) 5vw 1vh 5vw;
+    display: grid;
+    z-index: 998;
+    margin-top: -1rem;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    width: 85vw;
 }
 
-fieldset {
-  margin: 0;
-  padding: 0;
+.app-tile-dropdown-background {
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.35);
 }
 
-legend {
-  padding: 0;
+.app-tile-dropdown-element {
+    display: flex;
+    align-items: center;
 }
 
-ol,
-ul,
-menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.app-tile-dropdown-element:not(:first-child) {
+    margin-top: 1vh;
+    padding-top: 1vh;
+    border-top: solid 1px #f2f2f2;
 }
 
-/*
-Prevent resizing textareas horizontally by default.
-*/
+.app-tile-dropdown-element p {
+    margin-left: 1.5vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 61vw;
 
-textarea {
-  resize: vertical;
 }
 
-/*
-1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
-2. Set the default placeholder color to the user's configured gray 400 color.
-*/
-
-input::-moz-placeholder, textarea::-moz-placeholder {
-  opacity: 1;
-  /* 1 */
-  color: #9ca3af;
-  /* 2 */
+.app-tile-dropdown-element .top-button {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.8rem;
+    right: 3vw;
 }
 
-input::placeholder,
-textarea::placeholder {
-  opacity: 1;
-  /* 1 */
-  color: #9ca3af;
-  /* 2 */
+.notification-reminder {
+    width: 4rem;
+    height: 4rem;
+    position: absolute;
+    border-radius: 2rem;
+    border: solid 2px white;
+    background-image: var(--gradient);
+    bottom: 1rem;
+    left: 1rem;
+    display: flex;
+    place-items: center;
+    justify-content: center;
 }
 
-/*
-Set the default cursor for buttons.
-*/
-
-button,
-[role="button"] {
-  cursor: pointer;
+.notification-reminder i.icon::before {
+    color: white;
+    font-size: 2.5rem;
 }
 
-/*
-Make sure disabled buttons don't get the pointer cursor.
-*/
-
-:disabled {
-  cursor: default;
+.notification-reminder p {
+    color: white;
+    width: 47vw;
+    line-height: 4vw;
+    text-align: center;
+    margin: 0 1rem;
 }
 
-/*
-1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
-2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
-   This can trigger a poorly considered lint error in some tools but is included by design.
-*/
-
-img,
-svg,
-video,
-canvas,
-audio,
-iframe,
-embed,
-object {
-  display: block;
-  /* 1 */
-  vertical-align: middle;
-  /* 2 */
+.notification-reminder .top-button {
+    position: relative;
 }
 
-/*
-Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
-*/
-
-img,
-video {
-  max-width: 100%;
-  height: auto;
+.console {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: var(--main-color);
+    z-index: 4;
 }
 
-/* Make elements with the HTML hidden attribute stay hidden by default */
-
-[hidden] {
-  display: none;
+.console .output {
+    height: calc(100vh - 30px);
+    overflow-y: scroll;
 }
 
-*, ::before, ::after {
-  --tw-border-spacing-x: 0;
-  --tw-border-spacing-y: 0;
-  --tw-translate-x: 0;
-  --tw-translate-y: 0;
-  --tw-rotate: 0;
-  --tw-skew-x: 0;
-  --tw-skew-y: 0;
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  --tw-pan-x:  ;
-  --tw-pan-y:  ;
-  --tw-pinch-zoom:  ;
-  --tw-scroll-snap-strictness: proximity;
-  --tw-ordinal:  ;
-  --tw-slashed-zero:  ;
-  --tw-numeric-figure:  ;
-  --tw-numeric-spacing:  ;
-  --tw-numeric-fraction:  ;
-  --tw-ring-inset:  ;
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgb(59 130 246 / 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-  --tw-shadow: 0 0 #0000;
-  --tw-shadow-colored: 0 0 #0000;
-  --tw-blur:  ;
-  --tw-brightness:  ;
-  --tw-contrast:  ;
-  --tw-grayscale:  ;
-  --tw-hue-rotate:  ;
-  --tw-invert:  ;
-  --tw-saturate:  ;
-  --tw-sepia:  ;
-  --tw-drop-shadow:  ;
-  --tw-backdrop-blur:  ;
-  --tw-backdrop-brightness:  ;
-  --tw-backdrop-contrast:  ;
-  --tw-backdrop-grayscale:  ;
-  --tw-backdrop-hue-rotate:  ;
-  --tw-backdrop-invert:  ;
-  --tw-backdrop-opacity:  ;
-  --tw-backdrop-saturate:  ;
-  --tw-backdrop-sepia:  ;
+.console .entry {
+    position: relative;
 }
 
-::backdrop {
-  --tw-border-spacing-x: 0;
-  --tw-border-spacing-y: 0;
-  --tw-translate-x: 0;
-  --tw-translate-y: 0;
-  --tw-rotate: 0;
-  --tw-skew-x: 0;
-  --tw-skew-y: 0;
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  --tw-pan-x:  ;
-  --tw-pan-y:  ;
-  --tw-pinch-zoom:  ;
-  --tw-scroll-snap-strictness: proximity;
-  --tw-ordinal:  ;
-  --tw-slashed-zero:  ;
-  --tw-numeric-figure:  ;
-  --tw-numeric-spacing:  ;
-  --tw-numeric-fraction:  ;
-  --tw-ring-inset:  ;
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgb(59 130 246 / 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-  --tw-shadow: 0 0 #0000;
-  --tw-shadow-colored: 0 0 #0000;
-  --tw-blur:  ;
-  --tw-brightness:  ;
-  --tw-contrast:  ;
-  --tw-grayscale:  ;
-  --tw-hue-rotate:  ;
-  --tw-invert:  ;
-  --tw-saturate:  ;
-  --tw-sepia:  ;
-  --tw-drop-shadow:  ;
-  --tw-backdrop-blur:  ;
-  --tw-backdrop-brightness:  ;
-  --tw-backdrop-contrast:  ;
-  --tw-backdrop-grayscale:  ;
-  --tw-backdrop-hue-rotate:  ;
-  --tw-backdrop-invert:  ;
-  --tw-backdrop-opacity:  ;
-  --tw-backdrop-saturate:  ;
-  --tw-backdrop-sepia:  ;
+.console .entry, .console .input {
+    width: 100vw;
+    border: solid 1px #ddd;
+    padding: 0.1rem 0.5rem;
+    line-break: anywhere;
 }
 
-.flex {
-  display: flex;
+.console .input {
+    position: fixed;
+    bottom: 0;
 }
 
-.grid {
-  display: grid;
+.console .input input {
+    width: 80vw;
 }
 
-.h-56 {
-  height: 14rem;
+.console .input div {
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
 
-.h-auto {
-  height: auto;
+.console .input button {
+    border: solid 1px #ddd;
 }
 
-.w-56 {
-  width: 14rem;
+.menu[type="settings"] .main-wrapper {
+    display: flex;
+    height: auto;
+    flex-wrap: wrap;
+    overflow: hidden;
+    padding: 0 1rem;
+    padding-bottom: 0.5rem;
 }
 
-.snap-center {
-  scroll-snap-align: center;
+.menu[type="cal"] .main-wrapper {
+    overflow-x: hidden;
 }
 
-.flex-row {
-  flex-direction: row;
+.setting {
+    width: 5rem;
+    border: solid 1px #f2f2f2;
+    height: 3rem;
+    border-radius: 0.5rem;
+    display: flex;
+    place-items: center;
+    justify-content: center;
 }
 
-.flex-wrap {
-  flex-wrap: wrap;
+.setting-wrapper {
+    margin: 0.5rem;
 }
 
-.items-center {
-  align-items: center;
+.setting-wrapper p {
+    text-align: center;
+    margin-top: 0.25rem;
 }
 
-.justify-center {
-  justify-content: center;
+.setting i:not(.fa-angle-right) {
+    font-size: 1.25rem;
 }
 
-.place-self-center {
-  place-self: center;
+.setting i.fa-angle-right {
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
 }
 
-.self-center {
-  align-self: center;
+.setting-item {
+    width: 90vw;
+    display: flex;
+    padding: 0.75rem 0;
+    transform: translateX(100vw);
 }
 
-.rounded-md {
-  border-radius: 0.375rem;
+i.fa-solid.fa-spinner {
+    animation: rotating 1.5s ease-in-out infinite;
 }
 
-.rounded-2xl {
-  border-radius: 1rem;
+@keyframes rotating {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
-.rounded-b-md {
-  border-bottom-right-radius: 0.375rem;
-  border-bottom-left-radius: 0.375rem;
+.setting-item .name {
+    font-size: 1.5rem;
 }
 
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+.setting-item .name i {
+    margin-right: 0.25rem;
 }
 
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+.setting-item .description {
+    color: #4f5762;
+    font-size: 0.9rem;
+    line-height: 1rem;
 }
 
-.bg-red-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
+.setting-item .left {
+    width: 65%;
 }
 
-.bg-amber-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(253 230 138 / var(--tw-bg-opacity));
+.setting-item .right {
+    display: grid;
+    width: 35%;
+    place-content: center;
 }
 
-.shadow-md {
-  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+.setting-item .action {
+    padding: 0.5rem 0.75rem;
+    background-color: var(--button-default);
+    color: white;
+    border-radius: 1rem;
+    text-align: center;
+    margin-left: 0.5rem;
 }
 
-.shadow {
-  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+.action.disabled {
+    background-color: var(--button-disabled);
+}
+
+.action.pressed:not(.disabled) {
+    background-color: var(--button-pressed);
+}
+
+.setting-item:not(:first-child) {
+    border-top: solid 2px #f2f2f2;
+}
+
+.menu[type="settings"] .note {
+    padding: 1rem;
+    padding-bottom: 0;
+    line-height: 1rem;
+    font-size: 90%;
+}
+
+.menu[type="cal"] .main-wrapper {
+    border: solid 1px #ddd;
+    margin-left: 2.5vw;
+    width: 95vw;
+}
+
+.calendar-month tbody tr:nth-child(1).main-header > th {
+    text-align: center;
+    border: solid 1px #ddd;
+    width: calc(95vw / 8);
+}
+
+.calendar-month tr {
+    position: relative;
+}
+
+.calendar-month tr[week] > td {
+    border: solid 1px #ddd;
+    text-align: center;
+    height: 4rem;
+    position: relative;
+}
+
+.calendar-month > tbody > tr:nth-child(1) > th {
+    border-top: none !important;
+}
+
+.calendar-month > tbody > tr:nth-child(7) > td {
+    border-bottom: none !important;
+    height: calc(5rem + 4px);
+}
+
+.calendar-month > tbody > tr > td:nth-child(1), .calendar-month > tbody > tr > th:nth-child(1) {
+    border-left: none !important;
+}
+
+.calendar-month > tbody > tr > td:nth-child(7), .calendar-month > tbody > tr > th:nth-child(7) {
+    border-right: none !important;
+}
+
+.calendar-month > tbody > tr:not(:nth-child(1)) {
+    height: 4rem;
+}
+
+.calendar-month .day {
+    position: absolute;
+    top: 0;
+    text-align: right;
+    width: 100%;
+    padding-right: 0.25rem;
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+.calendar-month .day.outside {
+    color: #4f5762;
+}
+
+.calendar-month .events {
+    position: absolute;
+    left: 0;
+    top: 1.25rem;
+    width: 95vw;
+    height: calc(3.75rem + 3px);
+}
+
+.calendar-month .event {
+    height: 1.25rem;
+    width: calc(95vw / 8);
+    overflow: hidden;
+    font-size: 0.7rem;
+    color: white;
+    border: solid 1px black;
+    border-radius: 0.25rem;
+    font-family: Arial;
+    margin-top: 1px;
+    margin-left: 1px;
+    padding: 0;
+    padding-top: 1px;
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    background-image: linear-gradient(157deg, var(--event-gradient-color-1) 0%, var(--event-gradient-color-2) 100%);
+}
+
+.calendar-month .event i::before {
+    color: white;
+}
+
+.calendar-month-selector {
+    background-color: #f2f2f2;
+    display: flex;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    width: 11rem;
+    position: relative;
+    justify-content: center;
+}
+
+.calendar-month-selector i {
+    height: 1.5rem;
+    width: 1.5rem;
+    text-align: center;
+    display: grid;
+    place-content: center;
+    position: absolute;
+}
+
+.calendar-month-selector i:nth-child(1) {
+    left: 0.5rem;
+}
+
+.calendar-month-selector i:nth-child(3) {
+    right: 0.5rem;
+}
+
+.filter-selector {
+    margin-right: 1.5rem;
+}
+
+.filter-selector, .search {
+    background-color: #f2f2f2;
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 1.25rem;
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.search {
+    margin-left: 1.5rem;
+}
+
+.menu[type="cal"] .selection-wrapper {
+    display: flex;
+    place-content: center;
+    position: sticky;
+    top: 0;
+    background-color: var(--main-color);
+    padding-bottom: 1rem;
+    z-index: 3;
+    width: 100vw;
+    margin-bottom: 0.5rem;
+}
+
+.filters {
+    font-size: 0;
+    outline: none;
+    position: absolute;
+    width: 2.5rem;
+    height: 2.5rem;
+    top: 0;
+    left: 0;
+    border-radius: 1.25rem;
+    pointer-events: auto;
+    z-index: 100;
+    appearance: none;
+}
+
+.filter-selector i::before {
+    pointer-events: none;
+    position: relative;
+    z-index: 101;
+}
+
+.calendar-info-box {
+    position: fixed;
+    top: 1rem;
+    width: 90vw;
+    background-color: var(--main-color);
+    left: 5vw;
+    padding: 1rem;
+    border-radius: 1rem;
+    z-index: 3;
+}
+
+.calendar-info-box .top {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.calendar-info-box .top .icon,
+.calendar-month .event {
+    --event-gradient-color-1: #000;
+    --event-gradient-color-2: #000;
+    --event-gradient: linear-gradient(157deg, var(--event-gradient-color-1) 0%, var(--event-gradient-color-2) 100%);
+    background-image: var(--event-gradient);
+}
+
+.calendar-info-box .top .icon {
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 0.5rem;
+    margin-right: 0.5rem;
+    white-space: nowrap;
+}
+
+.calendar-info-box .top .icon i::before {
+    color: #fff;
+}
+
+.calendar-info-box .top .title {
+    overflow: hidden;
+    margin-right: 2.5rem;
+    white-space: nowrap;
+}
+
+.calendar-info-box .buttons {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0.5rem 0 0 0;
+}
+
+.calendar-info-box .button {
+    background-color: #f2f2f2;
+    color: #4f5762;
+    padding: 3px 9px;
+    border-radius: 1rem;
+    white-space: nowrap;
+    margin: 0 0.5rem 0.5rem 0;
+}
+
+.calendar-info-box .button i::before {
+    color: #4f5762;
+}
+
+.calendar-info-box .description {
+    line-height: 1rem;
+}
+
+.calendar-info-box .close-button {
+    right: 0;
+}
+
+.calendar-month .event .title {
+    color: white;
+    white-space: nowrap;
+    font-size: inherit;
+    font-family: inherit;
+    margin: 0;
+    margin-left: 3px;
+}
+
+.calendar-search {
+    position: absolute;
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 2.5rem;
+    opacity: 0;
+}
+
+.calendar-search i {
+    position: absolute;
+    left: 1rem;
+    font-size: 0.75rem;
+    top: 1.2rem;
+}
+
+.calendar-search input {
+    border: solid 1px #4f5762;
+    padding: 0.25rem 0.5rem;
+    padding-left: 0.5rem;
+    height: 2rem;
+    border-radius: 1rem;
+    padding-left: 1.5rem;
+}
+
+.force-reload-box {
+    position: fixed;
+    bottom: 1rem;
+    width: 90vw;
+    left: 5vw;
+    background-color: white;
+    display: flex;
+    place-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+}
+
+.force-reload-box img {
+    height: 3.5rem;
+}
+
+.force-reload-box p {
+    margin-left: 0.75rem;
+}
+
+.force-reload-box .top-button {
+    right: 1rem;
+}
+
+.status-wrapper {
+    overflow-y: auto;
+    height: 55vh;
+    width: 100vw;
+    justify-content: center;
+    display: grid;
+}
+
+.status-info {
+    align-items: center;
+    display: flex;
+    position: relative;
+    margin: 0.5rem 0;
+    border: solid 2px #f2f2f2;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    width: 80vw;
+}
+
+.status-info > img {
+    height: 4rem;
+}
+
+.status-info > div {
+    margin-left: 1rem;
+    width: 50vw;
+    line-height: 1rem;
+}
+
+.status-info small {
+    display: flex;
+}
+
+.menu[type="splan"] .main-wrapper {
+    width: 95vw;
+    margin-left: 2.5vw;
+    border: solid 1px #ddd;
+}
+
+.lesson-plan tr:nth-child(1) th {
+    border-top: none;
+}
+
+.lesson th:nth-child(1) {
+    width: 3rem;
+}
+
+.lesson-plan td:nth-child(1), .lesson-plan th:nth-child(1) {
+    border-left: none;
+}
+
+.lesson-plan td:nth-child(6), .lesson-plan th:nth-child(6) {
+    border-right: none;
+}
+
+.lesson-plan tr:last-child td {
+    border-bottom: none;
+}
+
+.lesson-plan td {
+    text-align: center;
+}
+
+.lesson-plan td[rowspan="2"] {
+    border-bottom: none;
+}
+
+.lesson-plan td:nth-child(1) {
+    line-height: 1rem;
+    font-weight: bold;
+}
+
+.lesson-plan td:nth-child(1) p {
+    display: inline-grid;
+    margin-top: 0.25rem;
+}
+
+.lesson-plan td:nth-child(1) small {
+    font-weight: initial;
+    display: inline-grid;
+    line-height: 0.75rem;
+    margin: 0.25rem 0.1rem;
+}
+
+.lesson-plan td, .lesson-plan th {
+    border: solid 1px #ddd;
+}
+
+.lesson-plan .lesson {
+    padding: calc(0.25rem + 4px) 4px;
+    margin: 0 0.25rem;
+}
+
+.lesson-plan .lesson:not(:nth-child(1)) {
+    border-top: solid 3px #ddd;
+}
+
+.lesson-plan .lesson p:nth-child(1) {
+    font-weight: bold;
+    line-height: 1.25rem;
+}
+
+.lesson-plan .lesson p:nth-child(2) {
+    font-size: 0.75rem;
+    line-height: 0.9rem;
+    white-space: nowrap;
+}
+
+.lesson-plan td.hovered, .calendar-month td.hovered {
+    background: #faf2cc;
+}
+
+.splan-switcher {
+    position: relative;
+}
+
+.splan-switcher i {
+    pointer-events: none;
+    z-index: 1;
+}
+
+.splan-switcher select {
+    pointer-events: auto;
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 1rem;
+    appearance: none;
+    outline: 0;
+    font-size: 0;
+    z-index: 0;
+}
+
+.header > p {
+    color: #fff;
+    font-size: 2.5rem;
+    margin-top: -0.25rem;
+    display: flex;
+}
+
+.header > p > small {
+    font-size: 45%;
+    align-self: start;
+    margin-top: 0.8rem;
+}
+
+.menu[type="splan"] .top-wrapper .title {
+    line-height: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.menu[type="splan"] .top-wrapper .title > small {
+    font-size: 0.75rem;
+    width: 100%;
+    display: inline-block;
+    font-family: SPFontSemiBold;
+    font-weight: initial;
+}
+
+.header > .settings {
+    position: absolute;
+    border-top: solid 0.25rem white;
+    border-left: solid 0.25rem white;
+    padding: 0.3rem 0.5rem;
+    bottom: 0;
+    right: 0;
+    border-top-left-radius: 1rem;
+}
+
+.header > .settings > i {
+    font-size: 1.75rem;
+    margin: 2px 0 0 3px;
+}
+
+.header > .settings > i::before {
+    color: white;
+}
+
+.messages-selector {
+    display: flex;
+    background: #f2f2f2;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    width: fit-content;
+    justify-self: center;
+}
+
+.messages-selector > .selector {
+    padding: 0 1rem;
+}
+
+.messages-selector > .selector.selected {
+    text-decoration: underline;
+}
+
+.messages-browser {
+    width: 90vw;
+    margin-top: 1rem;
+}
+
+.messages-browser .message {
+    display: flex;
+    height: 4.5rem;
+    padding: 1rem 0.5rem;
+    border: solid 1px;
+    border-radius: 0.75rem;
+}
+
+.messages-browser .message .icon {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 1.25rem;
+}
+
+.messages-browser .message div {
+    margin-left: 0.5rem;
+    width: 70vw;
+    display: grid;
+}
+
+.messages-browser .message .name {
+    line-height: 1rem;
+}
+
+.messages-browser .message .name span {
+    color: #4f5762;
+    float: right;
+    font-size: 0.8rem;
+}
+
+.messages-browser .message .description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1rem;
+    font-size: 0.8rem;
 }

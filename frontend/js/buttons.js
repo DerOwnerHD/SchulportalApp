@@ -76,7 +76,6 @@ $(".dialog-box .action").on("mousedown", async (event) => {
     switch (action) {
         case "logoff": {
             localStorage.removeItem("credentials");
-            eval(await (await fetch("/js/localforage.js")).text());
             await localforage.removeItem("credentials");
             if ("serviceWorker" in navigator)
                 await (await navigator.serviceWorker.getRegistration())?.unregister();

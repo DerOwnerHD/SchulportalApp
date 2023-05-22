@@ -1,5 +1,5 @@
 import { Collection, Db, MongoClient } from "mongodb";
-import { consoleTime, databaseConnect, isWindows } from "..";
+import { consoleTime, databaseConnect, isWindows } from ".";
 import { spawn } from "node:child_process";
 
 export let isConnected = false;

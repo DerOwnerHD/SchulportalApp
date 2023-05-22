@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { subscriptions } from "../database/Database";
+import { subscriptions } from "../database";
 
 /**
  * Checks if a Subscription is registered within the Database

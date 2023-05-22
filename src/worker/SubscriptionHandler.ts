@@ -1,5 +1,5 @@
 import { consoleTime } from "..";
-import { isConnected, subscriptions } from "../database/Database";
+import { isConnected, subscriptions } from "../database";
 import * as webPush from "web-push";
 
 const duration = 60000;

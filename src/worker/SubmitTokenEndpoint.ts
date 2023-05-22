@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { subscriptions } from "../database/Database";
+import { subscriptions } from "../database";
 import { consoleTime } from "..";
 
 /**

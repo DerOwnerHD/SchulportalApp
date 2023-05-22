@@ -15,7 +15,7 @@ import * as webPush from "web-push";
 import * as os from "os";
 import * as fs from "fs";
 import SubscribeEndpoint from "./worker/SubscribeEndpoint";
-import Database from "./database/Database";
+import Database from "./database";
 import CalendarEndpoint from "./api/CalendarEndpoint";
 import CalendarExportEndpoint from "./api/CalendarExportEndpoint";
 import StatusEndpoint, { statusInterval } from "./api/StatusEndpoint";
@@ -32,8 +32,24 @@ const root = path.dirname(__dirname);
 // Loads the Enviroment Variables from the main root of the project
 require("dotenv").config({ path: root + "/.env" });
 
-function generateRateLimit(max?: number, window?: number): RateLimiter {
-    return { windowMs: window || 1000 * 60, max: max || 5, standardHeaders: true, legacyHeaders: false, message: { error: true, error_message: "429: Too Many Requests" } };
+function generateRateLimit(max?: number, window?: number, methods?: string[]): RateLimiter {
+    return { 
+        windowMs: window || 1000 * 60, 
+        max: max || 5, 
+        standardHeaders: true, 
+        legacyHeaders: false, 
+        message: { 
+            error: true, 
+            error_message: "429: Too Many Requests" 
+        },
+        skip: (request: Request, res: Response) => {
+            if (!methods || !methods.length)
+                return false;
+            if (methods.includes(request.method))
+                return false;
+            return true;
+        }
+    };
 }
 
 interface RateLimiter {
@@ -42,14 +58,16 @@ interface RateLimiter {
     standardHeaders: boolean;
     legacyHeaders: boolean;
     message: object;
+    skip: (request: Request, response: Response) => boolean;
 }
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/api/login", rateLimit(generateRateLimit(4, 1000 * 20)));
-app.use("/api/worker/subscribe", rateLimit(generateRateLimit(2, 1000 * 20)));
-app.use("/api/worker/submit", rateLimit(generateRateLimit(4, 1000 * 20)));
-app.use("/api/worker/remove", rateLimit(generateRateLimit(2, 1000 * 20)));
+app.use("/api/login", rateLimit(generateRateLimit(4, 1000 * 20, ["POST"])));
+app.use("/api/autologin", rateLimit(generateRateLimit(4, 1000 * 20, ["POST"])));
+app.use("/api/worker/subscribe", rateLimit(generateRateLimit(2, 1000 * 20, ["POST"])));
+app.use("/api/worker/submit", rateLimit(generateRateLimit(4, 1000 * 20, ["POST"])));
+app.use("/api/worker/remove", rateLimit(generateRateLimit(2, 1000 * 20, ["POST"])));
 
 export const consoleTime = (): string => {
     const time = new Date();
@@ -71,7 +89,7 @@ webPush.setVapidDetails("mailto:test@test.com", vapidKeys.public, vapidKeys.priv
 // =========== FRONTEND ===========
 app.get("/", (req: Request, res: Response) => res.sendFile(root + "/build/frontend/index.html"));
 app.get("/app.js", (req: Request, res: Response) => res.sendFile(root + "/build/frontend/app.js"));
-app.get("/app.css", (req: Request, res: Response) => res.sendFile(root + "/frontend/app.css"));
+app.get("/app.css", (req: Request, res: Response) => res.sendFile(root + "/build/frontend/app.css"));
 app.get("/font/:id", (req: Request, res: Response) => handleFontRequest(req, res));
 app.get("/favicon.ico", (req: Request, res: Response) => res.sendFile(root + "/frontend/favicon.ico"));
 app.get("/apple-touch-icon.png", (req: Request, res: Response) => res.sendFile(root + "/frontend/apple-touch-icon.png"));

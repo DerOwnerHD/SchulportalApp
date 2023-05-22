@@ -2,6 +2,7 @@ const { minify } = require("terser");
 const htmlMinifier = require("html-minifier");
 const fs = require("fs");
 const os = require("os");
+const CleanCSS = require("clean-css");
 
 /**
  * Minifies all Frontend scripts, styles and
@@ -12,7 +13,14 @@ async function buildFrontend() {
     const scripts = fs.readdirSync("./frontend/js");
     console.log("[Minifier] Loaded " + scripts.length + " scripts");
 
+    const stylings = fs.readFileSync("./frontend/app.css") + "\n" + fs.readFileSync("./frontend/tailwind.css");
+    const minifiedStyle = new CleanCSS({ }).minify(stylings);
+    fs.writeFileSync("./build/frontend/app.css", minifiedStyle.styles);
+    console.log("[Minifier] Minified CSS styles");
+
     let scriptContent = "";
+    // We only do not minify the scripts and HTML for debugging
+    // purposes so it is still identifiable in the browser debugger
     if (os.platform() === "win32") {
 
         console.log("[Minifier] Running on Windows, thus not minifying scripts");

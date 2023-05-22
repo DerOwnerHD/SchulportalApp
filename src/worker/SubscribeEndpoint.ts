@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { isConnected, subscriptions } from "../database/Database";
+import { isConnected, subscriptions } from "../database";
 import { consoleTime } from "..";
 import * as webPush from "web-push";
 
